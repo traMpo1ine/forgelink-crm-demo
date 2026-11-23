@@ -1,0 +1,13 @@
+{
+  // ForgeLink 工业销售 Agent 工作台 · 静态演示站
+  "name": "forgelink-crm-demo",
+  "main": "src/worker.js",
+  "compatibility_date": "2026-11-01",
+  "workers_dev": true,
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS",
+    // 关闭自动 .html 重定向，由 src/worker.js 负责 /mobile、/about 改写，避免重定向循环
+    "html_handling": "none"
+  }
+}
