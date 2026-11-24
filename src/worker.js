@@ -1,4 +1,6 @@
+// html_handling 为 none 时资源层不会把 / 映射到 index.html，这里显式改写
 const REWRITES = {
+  '/': '/index.html',
   '/mobile': '/mobile.html',
   '/mobile/': '/mobile.html',
   '/about': '/about.html',
