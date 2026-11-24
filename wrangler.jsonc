@@ -9,5 +9,9 @@
     "binding": "ASSETS",
     // 关闭自动 .html 重定向，由 src/worker.js 负责 /mobile、/about 改写，避免重定向循环
     "html_handling": "none"
-  }
+  },
+  // 自定义子域名（保留 workers_dev 地址作为备份）
+  "routes": [
+    { "pattern": "crm.mmh1012.me", "custom_domain": true }
+  ]
 }
