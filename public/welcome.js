@@ -11,7 +11,7 @@
     'arch-channels': {
       badge: '交互与渠道层',
       title: '多端会话入口与可恢复 SSE 事件流',
-      body: '销售在收件箱处理企业微信 / 电话 / 邮件会话，在工作台以按序持久化的 SSE 事件流查看思考、工具调用与提案审批；断网重连按序号补读，绝不因页面刷新重跑任务。',
+      body: '销售在统一收件箱处理多渠道客户会话（经渠道适配器接入），在工作台以按序持久化的 SSE 事件流查看思考、工具调用与提案审批；断网重连按序号补读，绝不因页面刷新重跑任务。',
     },
     'arch-ontology': {
       badge: '语义与权限闸门',
@@ -26,32 +26,32 @@
     'arch-runtime': {
       badge: '推理与交叉核验',
       title: 'Pi 执行内核 + 并行只读专家交叉核验',
-      body: '对购买意向、交付可行性与商务政策合规性并行做只读分析，再交叉比对证据版本与数据库字段。发现报价冲突或依据不足时主动挂起，把差异交由人工裁决。',
+      body: '由客户事实分析员、商机诊断员、业务政策顾问三个只读专家并行分析，再交叉比对证据版本与数据库字段。发现报价冲突或依据不足时主动挂起，把差异交由人工裁决。',
     },
     'arch-gate': {
       badge: '副作用安全闸门',
       title: '工具效果分级：只读直行 / 可逆写快照 / 外部动作必审',
-      body: '把模型“建议做什么”和系统“实际做了什么”彻底分开：仅 6 个低敏感辅助字段允许带版本快照的可逆自动写，其余写操作与对客沟通一律生成待审提案，经人确认后执行。',
+      body: '把模型“建议做什么”和系统“实际做了什么”彻底分开：仅 6 个能精确撤销的字段（标题、描述、联系人、金额、币种、预计成交日）允许带版本快照的可逆自动写，其余写操作与对客沟通一律生成待审提案，经人确认后执行。',
     },
     'arch-sql': {
       badge: '唯一事实源',
       title: 'PostgreSQL + RLS 权威业务事实',
-      body: '联系人、商机阶段、订单与合同以关系数据库为唯一事实真源并执行租户行级隔离；任何记忆或检索摘要都无权覆盖最新业务字段。',
+      body: '联系人、商机阶段与订单以关系数据库为唯一事实真源并执行租户行级隔离；任何记忆或检索摘要都无权覆盖最新业务字段。',
     },
     'arch-mem0': {
       badge: '客户画像记忆',
       title: 'Mem0 + Outbox 确认式客户记忆',
-      body: '沉淀客户价格敏感度、采购偏好与沟通禁忌：人工确认后在同事务写入本地事实与同步待办，夜间异步清洗去重；删除即刻在本地停读，杜绝过期偏好误导跟进。',
+      body: '沉淀客户价格敏感度、采购偏好与沟通禁忌：模型只能提出带客户原话的候选，人工确认后在同事务写入本地事实与同步待办；Mem0 只按编号做语义排序，夜间异步清洗去重；删除即刻在本地停读，杜绝过期偏好误导跟进。',
     },
     'arch-wiki': {
       badge: '分级知识库',
-      title: 'WeKnora / LLM Wiki 可追溯产品与政策知识',
-      body: '存放企业静态产品手册与报价政策，按角色分级授权检索范围，强制记录内容指纹、文档版本与原文锚点，自动屏蔽已下架政策，避免幻觉承诺折扣。',
+      title: '产品与政策知识库（可选接入 WeKnora）',
+      body: '存放企业静态产品手册与报价政策，按角色分级授权检索范围，引用按片段 ID 追溯到原文，已撤回的依据不得再被引用，避免幻觉承诺折扣。',
     },
     'arch-eval': {
       badge: '可观测与回归',
-      title: 'Langfuse 召回追踪 + 三层评测门禁',
-      body: '追踪粗排/重排召回与冲突轨迹，结合“代码确定性断言 → LLM-as-a-Judge → 人工抽检”沉淀 Golden Case 回归集；改进只调提示、工具与召回，权限与外发红线永久锁定。',
+      title: '执行时间线 + 三层评测门禁',
+      body: '每步执行写成带序号、写入时脱敏的事件，可完整回放；结合“代码确定性断言 → LLM-as-a-Judge（经人工标注校准）→ 人工抽检”沉淀 Golden Case 回归集；权限与外发红线由确定性门禁锁定，Judge 只能从严。Langfuse 为可选接入的追踪后端。',
     },
     // State machine nodes
     'fsm-queued': {
@@ -67,7 +67,7 @@
     'fsm-autowrite': {
       badge: 'STATE · REVERSIBLE',
       title: 'Auto-Write（6 字段带快照可逆写）',
-      body: '仅对标题、预计成交日等 6 个低敏字段放行自动写入，写前保存旧值快照与版本号，撤销时校验是否已被人工改写。',
+      body: '仅对标题、金额、预计成交日等 6 个能精确撤销的字段放行自动写入，写前保存旧值快照与版本号，撤销时校验是否已被人工改写。',
     },
     'fsm-awaiting': {
       badge: 'STATE · HITL GATE',
@@ -91,8 +91,8 @@
     },
     'fsm-cancelled': {
       badge: 'SAFETY · CANCELLED',
-      title: 'Cancelled（策略升版或紧急熔断）',
-      body: '主管切换跟进策略版本或触发租户/单客紧急熔断时，立刻废止待执行提案并终止后续推理，已完成的写操作走独立补偿路径。',
+      title: 'Cancelled（主管取消或暂停）',
+      body: '主管取消任务、切换跟进方向或暂停 Agent 时，立刻废止待执行提案并终止后续推理，已完成的写操作走独立补偿路径。',
     },
   };
 
@@ -106,9 +106,9 @@
     },
     {
       tag: '三源数据权威分层',
-      title: 'SQL 事实源 / Mem0 客户画像 / WeKnora 知识库解耦',
+      title: 'SQL 事实源 / Mem0 客户画像 / 知识库解耦',
       pain: '把实时订单、动态客户偏好与静态产品政策混进同一检索池，常导致旧订单覆盖新状态或引用过时报价。',
-      design: '数据库管交易真源；Mem0 沉淀经确认的客户画像（增量写入 + 夜间清洗 + 删除即刻失效）；WeKnora 存分级授权产品知识并绑定版本指纹与原文链接。',
+      design: '数据库管交易真源；Mem0 沉淀经确认的客户画像（增量写入 + 夜间清洗 + 删除即刻失效）；知识库存放产品与政策资料（可选接入 WeKnora），引用按片段 ID 追溯原文。',
       guard: '三源职责清晰 · 证据可溯源不串线',
     },
     {
@@ -120,9 +120,9 @@
     },
     {
       tag: '可观测与回归门禁',
-      title: 'Langfuse 召回轨迹追踪 + 三层评测回归闭环',
+      title: '执行时间线回放 + 三层评测回归闭环',
       pain: '模型与上下文调优靠体感，假引用、订单自相矛盾等 Bad Case 难以稳定复现与回归验证。',
-      design: '用 Langfuse 追踪检索粗排/重排与并行核验冲突，构建「代码确定性断言 → LLM-as-a-Judge → 人工抽检」三层门禁并沉淀 Golden Case，安全边界永久锁定。',
+      design: '用带序号的执行事件回放每次运行与并行核验冲突，构建「代码确定性断言 → LLM-as-a-Judge → 人工抽检」三层门禁并沉淀 Golden Case；Judge 结论只能从严，安全边界由断言锁定。',
       guard: '改优有回归基线 · 权限外发红线锁定',
     },
   ];
@@ -358,7 +358,7 @@
         '<text x="28" y="29" font-size="11" font-weight="700" fill="var(--am-muted)" letter-spacing="0.04em">01 · 交互与渠道层  SURFACE &amp; CHANNELS</text>' +
         '<g class="archm-node" data-node="arch-channels">' +
           '<rect class="node-box" x="28" y="38" width="256" height="46" rx="9" fill="var(--am-node-fill)" stroke="var(--am-border)" stroke-width="1.2"/>' +
-          '<text x="42" y="57" font-size="12.5" font-weight="700" fill="var(--am-text)">会话收件箱 (企微 / 邮件)</text>' +
+          '<text x="42" y="57" font-size="12.5" font-weight="700" fill="var(--am-text)">会话收件箱（多渠道接入）</text>' +
           '<text x="42" y="74" font-size="11" fill="var(--am-muted)">多渠道沟通线程 · 随时人工接管</text>' +
 
           '<rect class="node-box" x="312" y="38" width="256" height="46" rx="9" fill="var(--am-node-fill)" stroke="var(--am-brand-ring)" stroke-width="1.3"/>' +
@@ -408,7 +408,7 @@
           '<rect x="458" y="172" width="104" height="17" rx="5" fill="var(--am-info-soft)"/>' +
           '<text x="465" y="184" font-size="10" font-weight="700" fill="var(--am-info)">Pi + Specialists</text>' +
           '<text x="458" y="206" font-size="12.5" font-weight="700" fill="var(--am-text)">并行只读交叉核验</text>' +
-          '<text x="458" y="223" font-size="10.8" fill="var(--am-muted)">意向 / 交付 / 政策多维比对</text>' +
+          '<text x="458" y="223" font-size="10.8" fill="var(--am-muted)">事实 / 商机 / 政策三专家比对</text>' +
           '<text x="458" y="238" font-size="10.8" fill="var(--am-muted)">发现证据冲突即挂起裁决</text>' +
         '</g>' +
 
@@ -419,7 +419,7 @@
           '<rect x="672" y="172" width="96" height="17" rx="5" fill="var(--am-warn-soft)"/>' +
           '<text x="679" y="184" font-size="10" font-weight="700" fill="var(--am-warn)">Effect Gate · HITL</text>' +
           '<text x="672" y="206" font-size="12.5" font-weight="700" fill="var(--am-text)">动作分级审批闸门</text>' +
-          '<text x="672" y="223" font-size="10.8" fill="var(--am-muted)">6 低敏字段带快照可逆写</text>' +
+          '<text x="672" y="223" font-size="10.8" fill="var(--am-muted)">6 个可撤销字段带快照写</text>' +
           '<text x="672" y="238" font-size="10.8" fill="var(--am-muted)">对客与高敏写强走提案人审</text>' +
         '</g>' +
 
@@ -437,7 +437,7 @@
         '<g class="archm-node" data-node="arch-sql">' +
           '<rect class="node-box" x="28" y="325" width="260" height="60" rx="10" fill="var(--am-node-fill)" stroke="var(--am-ok)" stroke-width="1.3"/>' +
           '<text x="42" y="345" font-size="12.5" font-weight="700" fill="var(--am-text)">PostgreSQL + RLS（权威真源）</text>' +
-          '<text x="42" y="363" font-size="10.8" fill="var(--am-muted)">联系人 · 商机 · 订单 · 合同 · 租户行级隔离</text>' +
+          '<text x="42" y="363" font-size="10.8" fill="var(--am-muted)">联系人 · 商机 · 订单 · 租户行级隔离</text>' +
           '<text x="42" y="377" font-size="10.2" font-weight="600" fill="var(--am-ok)">Single Source of Truth</text>' +
         '</g>' +
 
@@ -450,9 +450,9 @@
 
         '<g class="archm-node" data-node="arch-wiki">' +
           '<rect class="node-box" x="592" y="325" width="260" height="60" rx="10" fill="var(--am-node-fill)" stroke="var(--am-brand-ring)" stroke-width="1.3"/>' +
-          '<text x="606" y="345" font-size="12.5" font-weight="700" fill="var(--am-text)">WeKnora / LLM Wiki（产品知识库）</text>' +
+          '<text x="606" y="345" font-size="12.5" font-weight="700" fill="var(--am-text)">产品知识库（可选 WeKnora）</text>' +
           '<text x="606" y="363" font-size="10.8" fill="var(--am-muted)">产品手册 · 报价政策 · 按角色白名单授权</text>' +
-          '<text x="606" y="377" font-size="10.2" font-weight="600" fill="var(--am-brand)">版本指纹校验 · 摘要绑定原文</text>' +
+          '<text x="606" y="377" font-size="10.2" font-weight="600" fill="var(--am-brand)">片段 ID 引用 · 撤回依据拦截</text>' +
         '</g>' +
 
         /* Connector P3 -> P4 */
@@ -461,9 +461,9 @@
         /* Plane 4: Observability & Eval Loop */
         '<g class="archm-node" data-node="arch-eval">' +
           '<rect class="node-box" x="14" y="419" width="852" height="62" rx="13" fill="var(--am-node-fill)" stroke="var(--am-ok)" stroke-width="1.3"/>' +
-          '<text x="28" y="439" font-size="11" font-weight="700" fill="var(--am-ok)" letter-spacing="0.04em">04 · 可观测与三层评测回归闭环  LANGFUSE &amp; EVAL GATE</text>' +
+          '<text x="28" y="439" font-size="11" font-weight="700" fill="var(--am-ok)" letter-spacing="0.04em">04 · 可观测与三层评测回归闭环  TIMELINE &amp; EVAL GATE</text>' +
           '<rect x="28" y="447" width="184" height="24" rx="6" fill="var(--am-elev)"/>' +
-          '<text x="120" y="463" text-anchor="middle" font-size="11" font-weight="600" fill="var(--am-text)">Langfuse 粗排/重排追踪</text>' +
+          '<text x="120" y="463" text-anchor="middle" font-size="11" font-weight="600" fill="var(--am-text)">执行事件时间线回放</text>' +
           '<line x1="214" y1="459" x2="238" y2="459" stroke="var(--am-ok)" stroke-width="1.4" marker-end="url(#crm-arr-ok)"/>' +
           '<rect x="242" y="447" width="166" height="24" rx="6" fill="var(--am-elev)"/>' +
           '<text x="325" y="463" text-anchor="middle" font-size="11" font-weight="600" fill="var(--am-text)">代码确定性规则断言</text>' +
@@ -564,7 +564,7 @@
         '<g class="archm-edge" data-paths="safety">' +
           '<path d="M 310 246 L 310 258 L 623 258 L 623 307" fill="none" stroke="var(--am-err)" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#crm-fsm-err)"/>' +
           '<rect x="556" y="266" width="136" height="19" rx="8" fill="var(--am-bg)" stroke="var(--am-err)" stroke-width="0.8"/>' +
-          '<text x="624" y="279" text-anchor="middle" font-size="10" font-weight="600" fill="var(--am-err)">拒绝 / 策略升版熔断</text>' +
+          '<text x="624" y="279" text-anchor="middle" font-size="10" font-weight="600" fill="var(--am-err)">拒绝 / 主管取消</text>' +
         '</g>' +
 
         /* NODES */
@@ -583,7 +583,7 @@
         '<g class="archm-node" data-node="fsm-autowrite" data-paths="main">' +
           '<rect class="node-box" x="456" y="42" width="178" height="64" rx="11" fill="var(--am-node-fill)" stroke="var(--am-info)" stroke-width="1.4"/>' +
           '<text x="545" y="68" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--am-text)">Auto-Write</text>' +
-          '<text x="545" y="88" text-anchor="middle" font-size="10.8" fill="var(--am-muted)">6 低敏字段 · 快照可撤销</text>' +
+          '<text x="545" y="88" text-anchor="middle" font-size="10.8" fill="var(--am-muted)">6 个可撤销字段 · 快照可撤销</text>' +
         '</g>' +
 
         '<g class="archm-node" data-node="fsm-completed" data-paths="main approval">' +
